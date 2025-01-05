@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import axios from 'axios';
 import {Fragment, useEffect, useState} from "react";
+import apiClient from "@/api/apiClient";
 
 const Main = () => {
     const [posts, setPosts] = useState([]);
@@ -13,7 +13,7 @@ const Main = () => {
     }, []);
 
     const fetchData = async () => {
-        const postData = await axios.get('http://localhost:8080/post/list/load');
+        const postData = await apiClient.get('/post/list/load');
         setPosts(postData.data);
     };
 
@@ -22,8 +22,8 @@ const Main = () => {
             <div className="row gx-4 gx-lg-5 justify-content-center">
                 <div className="col-md-10 col-lg-8 col-xl-7">
                     {posts?.map((post) => (
-                        <Fragment>
-                            <div className="post-preview" key={post.id}>
+                        <Fragment key={post.postId}>
+                            <div className="post-preview">
                                 <Link href="/board">
                                     <h2 className="post-title">{post.title}</h2>
                                     <h3 className="post-subtitle">{post.content}</h3>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import {Fragment, useEffect, useState} from "react";
-import apiClient from "@/api/apiClient";
+import customFetch from "@/api/customFetch";
 
 const Main = () => {
     const [posts, setPosts] = useState([]);
@@ -13,8 +13,11 @@ const Main = () => {
     }, []);
 
     const fetchData = async () => {
-        const postData = await apiClient.get('/post/list/load');
-        setPosts(postData.data);
+        const postData = await customFetch('/post/list/load', {
+            method: 'GET'
+        });
+
+        setPosts(postData);
     };
 
     return (
@@ -26,22 +29,22 @@ const Main = () => {
                             <div className="post-preview">
                                 <Link href="/board/detail/1">
                                     <h2 className="post-title">{post.title}</h2>
-                                    <h3 className="post-subtitle">{post.content}</h3>
+                                    <h3 className="post-subtitle">{post.subTitle}</h3>
                                 </Link>
                                 <p className="post-meta">
                                     Posted by
                                     <a href="#">{post.memberName}</a>
-                                    on {post.createdDate}
+                                    on {post.formattedCreatedDate}
                                 </p>
                             </div>
                             <hr className="my-4"/>
                         </Fragment>
                     ))}
                     <div className="d-flex justify-content-end mb-4">
-                        <a className="btn btn-primary text-uppercase" href="#">
+                        <Link href="/board/write/new" className="btn btn-primary text-uppercase">
                             게시글 등록
                             <i className="bi bi-plus-circle" style={{marginLeft: "5px"}}></i>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

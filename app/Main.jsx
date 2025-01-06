@@ -24,7 +24,7 @@ const Main = () => {
                     {posts?.map((post) => (
                         <Fragment key={post.postId}>
                             <div className="post-preview">
-                                <Link href="/board">
+                                <Link href="/board/detail/1">
                                     <h2 className="post-title">{post.title}</h2>
                                     <h3 className="post-subtitle">{post.content}</h3>
                                 </Link>
@@ -37,8 +37,12 @@ const Main = () => {
                             <hr className="my-4"/>
                         </Fragment>
                     ))}
-                    <div className="d-flex justify-content-end mb-4"><a className="btn btn-primary text-uppercase"
-                                                                        href="#">Older Posts →</a></div>
+                    <div className="d-flex justify-content-end mb-4">
+                        <a className="btn btn-primary text-uppercase" href="#">
+                            게시글 등록
+                            <i className="bi bi-plus-circle" style={{marginLeft: "5px"}}></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

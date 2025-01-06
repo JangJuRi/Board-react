@@ -1,10 +1,12 @@
-const Page = () => {
+export default async function Page({ params }) {
+    const { id } = await params;
+
     return (
         <article className="mb-4">
             <div className="container px-4 px-lg-5">
                 <div className="row gx-4 gx-lg-5 justify-content-center">
                     <div className="col-md-10 col-lg-8 col-xl-7">
-                        <p>Never in all their history have men been able truly to conceive of the world as one: a single
+                        <p>{id} Never in all their history have men been able truly to conceive of the world as one: a single
                             sphere, a globe, having the qualities of a globe, a round earth in which all the directions
                             eventually meet, in which there is no center because every point, or none, is center — an
                             equal earth which all men occupy as equals. The airman's earth, if free men make it, will be
@@ -59,5 +61,3 @@ const Page = () => {
         </article>
     );
 }
-
-export default Page

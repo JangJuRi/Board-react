@@ -8,11 +8,11 @@ const Main = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetchData();
+        loadPostList();
 
     }, []);
 
-    const fetchData = async () => {
+    const loadPostList = async () => {
         const postData = await customFetch('/post/list/load', {
             method: 'GET'
         });
@@ -27,7 +27,7 @@ const Main = () => {
                     {posts?.map((post) => (
                         <Fragment key={post.postId}>
                             <div className="post-preview">
-                                <Link href="/board/detail/1">
+                                <Link href={`/board/detail/${post.postId}`}>
                                     <h2 className="post-title">{post.title}</h2>
                                     <h3 className="post-subtitle">{post.subTitle}</h3>
                                 </Link>
@@ -41,7 +41,7 @@ const Main = () => {
                         </Fragment>
                     ))}
                     <div className="d-flex justify-content-end mb-4">
-                        <Link href="/board/write/new" className="btn btn-primary text-uppercase">
+                        <Link href="/board/write/0" className="btn btn-primary text-uppercase">
                             게시글 등록
                             <i className="bi bi-plus-circle" style={{marginLeft: "5px"}}></i>
                         </Link>

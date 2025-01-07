@@ -21,11 +21,10 @@ const Page = ({ params }) => {
     };
 
     const savePost = async () => {
-        const api = (id === '0' ? '/post/add' : '/post/modify');
-
-        await customFetch(api, {
+        await customFetch('/post/save', {
             method: 'POST',
             body: {
+                postId: id === '0' ? '' : id,
                 title: detail.title,
                 subTitle: detail.subTitle,
                 content: detail.content,
@@ -61,7 +60,7 @@ const Page = ({ params }) => {
 
                             <div className="d-flex justify-content-between">
                                 <Link href="/" className="btn btn-secondary">목록</Link>
-                                <button type="button" onClick={savePost} className="btn btn-primary">게시글 등록</button>
+                                <button type="button" onClick={savePost} className="btn btn-primary">저장</button>
                             </div>
                         </form>
                     </div>

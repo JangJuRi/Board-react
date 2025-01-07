@@ -3,8 +3,10 @@
 import {use, useEffect, useState} from "react";
 import customFetch from "@/api/customFetch";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 const DetailPage = ({ params }) => {
+    const router = useRouter();
     const { id } = use(params);
     const [detail, setDetail] = useState({});
 
@@ -17,6 +19,17 @@ const DetailPage = ({ params }) => {
         setDetail(postData);
     };
 
+    const removePost = async () => {
+        await customFetch('/post/remove', {
+            method: 'POST',
+            body: {
+                postId: id
+            }
+        })
+
+        await router.push('/');
+    }
+
     return (
         <article className="mb-4">
             <div className="container px-4 px-lg-5">
@@ -28,7 +41,10 @@ const DetailPage = ({ params }) => {
 
                         <div className="d-flex justify-content-between">
                             <Link href="/" className="btn btn-secondary">목록</Link>
-                            <Link href={`/board/write/${id}`} className="btn btn-primary">수정</Link>
+                            <div>
+                                {id !== '0' && <button type="button" onClick={removePost} className="btn btn-danger me-2">삭제</button>}
+                                <Link href={`/board/write/${id}`} className="btn btn-primary">수정</Link>
+                            </div>
                         </div>
                     </div>
                 </div>

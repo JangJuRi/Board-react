@@ -4,6 +4,7 @@ import { Do_Hyeon } from 'next/font/google';
 import Footer from "@/components/common/Footer";
 import "@/public/assets/css/template.css"
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Providers from "@/components/common/Providers";
 
 export const metadata = {
   title: '게시판',
@@ -22,11 +23,13 @@ export default function RootLayout({ children }) {
                 <Script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" strategy="lazyOnload"></Script>
             </head>
             <body className={font.className}>
-                <Nav/>
-                <div className="container-fluid p-0">
-                    {children}
-                </div>
-                <Footer/>
+                <Providers>
+                    <Nav/>
+                    <div className="container-fluid p-0">
+                            {children}
+                    </div>
+                    <Footer/>
+                </Providers>
             </body>
         </html>
   )

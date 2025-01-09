@@ -1,7 +1,12 @@
+"use client";
+
 import {Fragment} from "react";
 import Link from "next/link";
+import {signIn, signOut, useSession} from "next-auth/react";
 
 const Nav = () => {
+    const { data: session } = useSession();
+
     return (
         <Fragment>
 
@@ -19,15 +24,16 @@ const Nav = () => {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto py-4 py-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">이름</a>
+                                <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">{session?.user.name}</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">
+                                <a type="button" href="#" onClick={() => signOut()}
+                                   className="nav-link px-lg-3 py-3 py-lg-4">
                                     <i className="bi bi-box-arrow-right btn-sm me-2"></i>로그아웃
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">
+                            <a type="button" href="#" onClick={()=> signIn()} className="nav-link px-lg-3 py-3 py-lg-4">
                                     <i className="bi bi-box-arrow-in-right me-2"></i>로그인
                                 </a>
                             </li>

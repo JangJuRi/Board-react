@@ -3,9 +3,21 @@
 import {Fragment} from "react";
 import Link from "next/link";
 import {signIn, signOut, useSession} from "next-auth/react";
+import customFetch from "@/api/customFetch";
 
 const Nav = () => {
     const { data: session } = useSession();
+
+    const handleLogout = async () => {
+        await customFetch('/auth/logout', {
+            method: 'POST',
+            body: {
+                sessionId: session.sessionId
+            }
+        });
+
+        await signOut({ callbackUrl: "/" }); // 로그아웃 후 리디렉션
+    };
 
     return (
         <Fragment>
@@ -27,7 +39,7 @@ const Nav = () => {
                                 <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">{session?.user.name}</a>
                             </li>
                             <li className="nav-item">
-                                <a type="button" href="#" onClick={() => signOut()}
+                                <a type="button" href="#" onClick={handleLogout}
                                    className="nav-link px-lg-3 py-3 py-lg-4">
                                     <i className="bi bi-box-arrow-right btn-sm me-2"></i>로그아웃
                                 </a>

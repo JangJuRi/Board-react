@@ -27,6 +27,17 @@ const customFetch = async (endpoint, options = {}) => {
         return {}; // 빈 응답일 경우 빈 객체 반환
     }
 
-    return JSON.parse(textResponse);
+    try {
+        const parsedResponse = JSON.parse(textResponse);
+
+        // 파싱된 결과가 객체인 경우만 반환
+        if (parsedResponse && typeof parsedResponse === 'object' && !Array.isArray(parsedResponse)) {
+            return parsedResponse;
+        }
+    } catch (e) {
+        // JSON 파싱 오류가 나면 그대로 텍스트 반환
+    }
+
+    return textResponse;
 };
 export default customFetch;

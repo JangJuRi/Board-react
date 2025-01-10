@@ -19,17 +19,42 @@ const handler = NextAuth({
                     }
                 })
 
-                console.log(user)
-
                 if (user) {
-                    return user;
+                    // Redis에 사용자 세션 저장
+                    const sessionId = await customFetch('/auth/save', {
+                        method: 'POST',
+                        body: {
+                            memberId: user.memberId,
+                        }
+                    });
+
+                    return {...user, sessionId};
 
                 } else {
                     return null;
                 }
             }
         })
-    ]
+    ],
+    callbacks: {
+        // JWT에 sessionId와 memberId 저장
+        async jwt({ token, user }) {
+            if (user) {
+                token.sessionId = user.sessionId;
+                token.memberId = user.memberId;
+            }
+            return token;
+        },
+        // NextAuth 세션에 sessionId와 memberId 포함
+        async session({ session, token }) {
+            session.sessionId = token.sessionId;
+            session.memberId = token.memberId;
+            return session;
+        },
+    },
+    jwt: {
+        maxAge: 60 * 60 * 24 // 1일
+    },
 })
 
 export { handler as GET, handler as POST }

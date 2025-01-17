@@ -36,24 +36,32 @@ const Nav = () => {
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto py-4 py-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link px-lg-3 py-3 py-lg-4" href="index.html">{session?.user.name}</a>
+                                <a className="nav-link px-lg-3 py-3 py-lg-4">{session?.user.name}</a>
                             </li>
-                            <li className="nav-item">
-                                <a type="button" href="#" onClick={handleLogout}
-                                   className="nav-link px-lg-3 py-3 py-lg-4">
-                                    <i className="bi bi-box-arrow-right btn-sm me-2"></i>로그아웃
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                            <a type="button" href="#" onClick={()=> signIn()} className="nav-link px-lg-3 py-3 py-lg-4">
-                                    <i className="bi bi-box-arrow-in-right me-2"></i>로그인
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <Link href="/user/signup" className="nav-link px-lg-3 py-3 py-lg-4">
-                                    <i className="bi bi-person-square me-2"></i>회원가입
-                                </Link>
-                            </li>
+                            {
+                                session?.user &&
+                                <li className="nav-item">
+                                    <a type="button" href="#" onClick={handleLogout}
+                                       className="nav-link px-lg-3 py-3 py-lg-4">
+                                        <i className="bi bi-box-arrow-right btn-sm me-2"></i>로그아웃
+                                    </a>
+                                </li>
+                            }
+                            {
+                                !session?.user &&
+                                <Fragment>
+                                    <li className="nav-item">
+                                        <a type="button" href="#" onClick={()=> signIn()} className="nav-link px-lg-3 py-3 py-lg-4">
+                                            <i className="bi bi-box-arrow-in-right me-2"></i>로그인
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link href="/user/signup" className="nav-link px-lg-3 py-3 py-lg-4">
+                                            <i className="bi bi-person-square me-2"></i>회원가입
+                                        </Link>
+                                    </li>
+                                </Fragment>
+                            }
                         </ul>
                     </div>
                 </div>

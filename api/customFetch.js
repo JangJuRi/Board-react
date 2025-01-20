@@ -8,10 +8,10 @@ const customFetch = async (endpoint, options = {}) => {
     const fetchOptions = {
         method, // 기본값은 'GET'
         headers: {
-            'Content-Type': 'application/json',
+            ...(body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
             ...headers, // 다른 헤더가 있으면 추가
         },
-        ...(body && { body: JSON.stringify(body) }), // body가 있으면 포함
+        body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
     };
 
 

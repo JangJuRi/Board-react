@@ -5,11 +5,13 @@ import customFetch from "@/api/customFetch";
 import {use, useEffect, useState} from "react";
 import {handleChange} from "@/utils/common";
 import { useRouter } from 'next/navigation';
+import ImageInput from "@/components/common/ImageInput";
 
 const Page = ({ params }) => {
     const router = useRouter();
     const { id } = use(params);
     const [detail, setDetail] = useState({});
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         loadPostDetail();
@@ -21,14 +23,16 @@ const Page = ({ params }) => {
     };
 
     const savePost = async () => {
+        const formData = new FormData();
+        formData.append("imageFile", selectedFile);
+        formData.append("postId", id === '0' ? '' : id);
+        formData.append("title", detail.title);
+        formData.append("subTitle", detail.subTitle);
+        formData.append("content", detail.content);
+
         await customFetch('/post/save', {
             method: 'POST',
-            body: {
-                postId: id === '0' ? '' : id,
-                title: detail.title,
-                subTitle: detail.subTitle,
-                content: detail.content,
-            }
+            body: formData
         })
 
         await router.push('/');
@@ -42,20 +46,28 @@ const Page = ({ params }) => {
                         <form>
                             <div className="mb-3">
                                 <label htmlFor="title" className="form-label">타이틀</label>
-                                <input type="text" value={detail.title || ''} className="form-control" id="title" name="title" placeholder="타이틀을 입력하세요"
+                                <input type="text" value={detail.title || ''} className="form-control" id="title"
+                                       name="title" placeholder="타이틀을 입력하세요"
                                        onChange={handleChange(setDetail)}/>
                             </div>
 
                             <div className="mb-3">
                                 <label htmlFor="subtitle" className="form-label">서브타이틀</label>
-                                <input type="text" value={detail.subTitle || ''} className="form-control" id="subTitle" name="subTitle" placeholder="서브타이틀을 입력하세요"
+                                <input type="text" value={detail.subTitle || ''} className="form-control" id="subTitle"
+                                       name="subTitle" placeholder="서브타이틀을 입력하세요"
                                        onChange={handleChange(setDetail)}/>
                             </div>
 
                             <div className="mb-3">
                                 <label htmlFor="content" className="form-label">내용</label>
-                                <textarea value={detail.content || ''} className="form-control" id="content" name="content" rows="5" placeholder="내용을 입력하세요"
+                                <textarea value={detail.content || ''} className="form-control" id="content"
+                                          name="content" rows="5" placeholder="내용을 입력하세요"
                                           onChange={handleChange(setDetail)}></textarea>
+                            </div>
+
+                            <div className="mb-3">
+                                <label>이미지</label>
+                                <ImageInput setSelectedFile={setSelectedFile}/>
                             </div>
 
                             <div className="d-flex justify-content-between">

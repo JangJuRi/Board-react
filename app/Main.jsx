@@ -47,7 +47,8 @@ const Main = () => {
                         <div className="col" key={post.postId}>
                             <div className="card h-100">
                                 <Link href={`/board/detail/${post.postId}`}>
-                                    <img src="#" className="card-img-top"/>
+                                    { post.filePath && <img src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/static${post.filePath}`} className="card-img-top"/> }
+                                    { !post.filePath && <img src="/assets/img/thumbnail-sample.png" className="card-img-top"/> }
                                         <div className="card-body">
                                             <h5 className="card-title d-flex justify-content-between align-items-center">
                                                 <span>{post.title}</span>

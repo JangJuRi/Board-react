@@ -29,6 +29,7 @@ const Page = ({ params }) => {
         formData.append("title", detail.title);
         formData.append("subTitle", detail.subTitle);
         formData.append("content", detail.content);
+        formData.append("fileId", detail.fileId);
 
         await customFetch('/post/save', {
             method: 'POST',
@@ -67,7 +68,7 @@ const Page = ({ params }) => {
 
                             <div className="mb-3">
                                 <label>이미지</label>
-                                <ImageInput setSelectedFile={setSelectedFile}/>
+                                <ImageInput setSelectedFile={setSelectedFile} fileId={detail.fileId} settingFunction={setDetail}/>
                             </div>
 
                             <div className="d-flex justify-content-between">
